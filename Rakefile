@@ -53,8 +53,8 @@ end
 task :image_disk => ["raspbian.zip"] do
   disk = safe_ask_disk?
   if disk != ""
-    sh "mount | grep disk6s1 | cut -d ' ' -f 1 | sudo xargs diskutil unmount"
     raw_disk = "/dev/r" + disk.scan(/(disk\d+)(s\d+|$)/)[0][0] 
+    sh "sudo diskutil unmountDisk #{raw_disk}"
     print "Creating disk image on #{raw_disk}...\n"
     sh "unzip -p raspbian.zip | sudo dd of=#{raw_disk} bs=1m"
     sh "mount | grep disk6s1 | cut -d ' ' -f 1 | sudo xargs diskutil unmount"
