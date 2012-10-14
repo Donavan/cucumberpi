@@ -1,0 +1,9 @@
+#/bin/sh
+echo Performing operating system update...
+apt-get -qq update
+apt-get -qq -y dist-upgrade
+echo Installing git...
+apt-get -qq -y install git
+echo Cloning repository...
+git clone https://github.com/Donavan/cucumberpi.git
+
