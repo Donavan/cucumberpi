@@ -39,7 +39,7 @@ apt-get -qq -y install nodejs npm
 # Install the Java runtime for selenium
 #
 echo Installing Java runtime
-apt-get -qq -y install openjdk-6-jre-headless icedtea-plugin
+apt-get -qq -y install default-jre default-jdk icedtea-plugin
 #
 # Install selenium
 #
@@ -52,11 +52,21 @@ chmod a+w /var/log/selenium/
 cp cucumberpi/scripts/selenium /etc/init.d/selenium
 chmod 755 /etc/init.d/selenium
 update-rc.d selenium defaults
+echo Installing Selenium grid...
+apt-get -qq -y install ant ant-optional
+wget http://release.seleniumhq.org/selenium-grid/selenium-grid-1.0.8-bin.zip
+unzip selenium-grid-1.0.8-bin.zip -d /usr/local/
+
 #
 # install gems
 #
-echo Installing gems.
+echo Installing gems...
 gem install rake bundler
 gem install cucumber webrat headless
 gem install watir-webdriver
+
+# Run sanity check
+echo Running tests...
+cd /usr/local/selenium-grid-1.0
+ant sanity-check
 
