@@ -30,6 +30,8 @@ apt-get -qq -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scal
 cp cucumberpi/scripts/xvfb /etc/init.d/
 chmod 755 /etc/init.d/xvfb
 update-rc.d xvfb defaults
+ln -s /usr/lib/iceweasel/firefox-bin /usr/bin/firefox-bin
+patch -u  /etc/profile cucumberpi/patches/profile.patch
 #
 # Everybody loves node.  We'll grab zombie later.
 #

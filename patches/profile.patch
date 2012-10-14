@@ -1,0 +1,17 @@
+--- profile.orig	2012-10-14 12:21:14.349502780 -0400
++++ profile	2012-10-14 12:21:59.058833990 -0400
+@@ -2,11 +2,12 @@
+ # and Bourne compatible shells (bash(1), ksh(1), ash(1), ...).
+ 
+ if [ "`id -u`" -eq 0 ]; then
+-  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
++  PATH="/usr/lib/iceweasel;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ else
+-  PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"
++  PATH="/usr/lib/iceweasel;/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/local/games:/usr/games"
+ fi
+ export PATH
++export DISPLAY=:99
+ 
+ if [ "$PS1" ]; then
+   if [ "$BASH" ] && [ "$BASH" != "/bin/sh" ]; then
