@@ -26,7 +26,7 @@ git clone https://github.com/Donavan/cucumberpi.git
 # Install xvfb so we can run X apps headless might as well grab firefox at the same time.
 #
 echo Installing headless X environment
-apt-get -qq -y install xvfbx11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic xserver-xorg-core iceweasel
+apt-get -qq -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic xserver-xorg-core iceweasel
 cp cucumberpi/scripts/xvfb /etc/init.d/
 chmod 755 /etc/init.d/xvfb
 update-rc.d xvfb defaults
@@ -64,6 +64,7 @@ echo Installing gems...
 gem install rake bundler
 gem install cucumber webrat headless
 gem install watir-webdriver
+patch -u  /var/lib/gems/1.9.1/gems/selenium-webdriver-2.25.0/lib/selenium/webdriver/common/port_prober.rb cucumberpi/patches/port_prober.patch 
 
 # Run sanity check
 echo Running tests...

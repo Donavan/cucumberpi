@@ -1,7 +1,15 @@
 Cucumber Pi
 =========
 
-Tools for automated testing using Raspberry Pi boards.
+Turn a Rasberry Pi into an automated testing unit with the following features:
++ Xvfb + Iceweasel (For headless X sessions.)
++ Ruby
++ Watir-Webdriver
++ Cucumber
++ Headless
++ Selenium Server
++ Selenium Grid
++ Node.js
 
 &nbsp;
 Installation
@@ -23,3 +31,6 @@ You should have a Raspberry Pi attached to an HDMI/DVI display, keyboard/mouse a
 2. 
 `wget -qO- https://raw.github.com/Donavan/cucumberpi/master/scripts/bootstrap.sh | sudo sh`
 3. Go get a beer, it's gonna be a while.
+
+### Notes
+1. The Xvfb environmnet runs on display 99 (export DISPLAY=:99)

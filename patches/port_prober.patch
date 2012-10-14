@@ -1,0 +1,11 @@
+--- port_prober.rb.orig	2012-10-14 11:28:39.092290961 -0400
++++ port_prober.rb	2012-10-14 11:29:08.771921521 -0400
+@@ -23,7 +23,7 @@
+         Platform.interfaces.each do |host|
+           begin
+             TCPServer.new(host, port).close
+-          rescue Errno::EADDRNOTAVAIL
++          rescue Errno::EADDRNOTAVAIL, Errno::EAFNOSUPPORT
+             $stderr.puts "port prober could not bind to #{host}:#{port}" if $DEBUG
+             # ignored - some machines appear unable to bind to some of their interfaces
+           end
