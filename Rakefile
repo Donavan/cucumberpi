@@ -1,4 +1,20 @@
-task :default => [:image_disk]
+file "raspbian.zip" do
+  print "Fetching raspbian diskimage zip..."
+  sh "curl -L -o raspbian.zip http://files.velocix.com/c1410/images/raspbian/2012-09-18-wheezy-raspbian/2012-09-18-wheezy-raspbian.zip"
+  print "done!\n"
+end
+
+task :image_disk => ["raspbian.zip"] do
+  disk = safe_ask_disk?
+  if disk != ""
+    raw_disk = "/dev/r" + disk.scan(/(disk\d+)(s\d+|$)/)[0][0] 
+    sh "sudo diskutil unmountDisk #{raw_disk}"
+    print "Creating disk image on #{raw_disk}...\n"
+    sh "unzip -p raspbian.zip | sudo dd of=#{raw_disk} bs=1m"
+    sh "mount | grep disk6s1 | cut -d ' ' -f 1 | sudo xargs diskutil unmount"
+  end
+end
+
 
 def list_devices
   sh 'diskutil list | grep -e "[#1-9]:"'
@@ -7,7 +23,7 @@ end
 def ask_yn? (question, default=false)
   print question
   while true
-    response = gets.chomp
+    response = STDIN.gets.chomp
     case response
     when /^y|^Y/
       return true
@@ -21,7 +37,7 @@ end
 
 def ask_question? (question, default="")
   print question
-  response = gets.chomp
+  response = STDIN.gets.chomp
   return default if response == ""
   response
 end
@@ -43,20 +59,9 @@ def safe_ask_disk?
   end
 end
 
-file "raspbian.zip" do
-  print "Fetching raspbian diskimage zip..."
-  sh "curl -L -o raspbian.zip http://files.velocix.com/c1410/images/raspbian/2012-09-18-wheezy-raspbian/2012-09-18-wheezy-raspbian.zip"
-  print "done!\n"
-end
-
-
-task :image_disk => ["raspbian.zip"] do
-  disk = safe_ask_disk?
-  if disk != ""
-    raw_disk = "/dev/r" + disk.scan(/(disk\d+)(s\d+|$)/)[0][0] 
-    sh "sudo diskutil unmountDisk #{raw_disk}"
-    print "Creating disk image on #{raw_disk}...\n"
-    sh "unzip -p raspbian.zip | sudo dd of=#{raw_disk} bs=1m"
-    sh "mount | grep disk6s1 | cut -d ' ' -f 1 | sudo xargs diskutil unmount"
+def install_packages(packages)
+  if packages.kind_of?(Array)
+    packages = packages.join(" ")
   end
+  sh 'apt-get -qq -y install #{packages}'
 end

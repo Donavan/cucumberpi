@@ -67,6 +67,6 @@ gem install watir-webdriver
 
 # Run sanity check
 echo Running tests...
-cd /usr/local/selenium-grid-1.0
+cd /usr/local/selenium-grid-1.0.8
 ant sanity-check
 
