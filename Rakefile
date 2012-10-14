@@ -49,12 +49,6 @@ file "raspbian.zip" do
   print "done!\n"
 end
 
-file "2012-09-18-wheezy-raspbian.img" => ["raspbian.zip"] do
-  print "Unzipping..."
-  sh "unzip raspbian.zip"
-  print "done!\n"
-end
-
 
 task :image_disk => ["raspbian.zip"] do
   disk = safe_ask_disk?
@@ -65,8 +59,3 @@ task :image_disk => ["raspbian.zip"] do
     sh "unzip -p raspbian.zip | sudo dd of=#{raw_disk} bs=1m"
   end
 end
-
-task :clean do
-  sh "rm raspbian_image"
-end
-
