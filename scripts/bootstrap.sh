@@ -15,61 +15,37 @@ apt-get -qq -y install libxslt1-dev libxml2-dev python-software-properties
 #
 echo Installing Ruby development tools...
 apt-get -qq -y install ruby ruby-dev rubygems rake
+apt-get -qq -y install vim vim-scripts vim-addon-manager vim-rails
 #
 # Install git & grab our repo so we have our init scripts and what not
 #
 echo Installing git...
 apt-get -qq -y install git git-daemon-sysvinit equivs libnss-mdns
 git clone https://github.com/Donavan/cucumberpi.git
-
+chmod a+x ~/cucumberpi/install_selenium.sh
 #
-# Install xvfb so we can run X apps headless might as well grab firefox at the same time.
+# Install xvfb so we can run X apps headless might as well grab browsers at the same time.
 #
 echo Installing headless X environment
-apt-get -qq -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic xserver-xorg-core iceweasel
+apt-get -qq -y install xvfb x11-xkb-utils xfonts-100dpi xfonts-75dpi xfonts-scalable xfonts-cyrillic xserver-xorg-core iceweasel chromium
 cp cucumberpi/scripts/xvfb /etc/init.d/
 chmod 755 /etc/init.d/xvfb
 update-rc.d xvfb defaults
 ln -s /usr/lib/iceweasel/firefox-bin /usr/bin/firefox-bin
 patch -u  /etc/profile cucumberpi/patches/profile.patch
+chmod a+rw /var/run
 #
 # Everybody loves node.  We'll grab zombie later.
 #
 echo Installing node.js and NPM
 apt-get -qq -y install nodejs npm
 #
-# Install the Java runtime for selenium
-#
-echo Installing Java runtime
-apt-get -qq -y install default-jre default-jdk icedtea-plugin
-#
-# Install selenium
-#
-echo Installing Selenium
-mkdir /usr/lib/selenium/
-wget https://selenium.googlecode.com/files/selenium-server-standalone-2.25.0.jar
-mv selenium-server-standalone-2.25.0.jar /usr/lib/selenium/
-mkdir -p /var/log/selenium/
-chmod a+w /var/log/selenium/
-cp cucumberpi/scripts/selenium /etc/init.d/selenium
-chmod 755 /etc/init.d/selenium
-update-rc.d selenium defaults
-echo Installing Selenium grid...
-apt-get -qq -y install ant ant-optional
-wget http://release.seleniumhq.org/selenium-grid/selenium-grid-1.0.8-bin.zip
-unzip selenium-grid-1.0.8-bin.zip -d /usr/local/
-
-#
 # install gems
 #
 echo Installing gems...
 gem install rake bundler
-gem install cucumber webrat headless
-gem install watir-webdriver
-patch -u  /var/lib/gems/1.9.1/gems/selenium-webdriver-2.25.0/lib/selenium/webdriver/common/port_prober.rb cucumberpi/patches/port_prober.patch 
+gem install cucumber webrat headless rspec deep_test spec_ui webidl polyglot pry linecache19 method_source
+gem install watir-webdriver firewatir watir pry-debugger pry-syntax-hacks pry-remote pry-remote-em pry-stack_explorer pry-exception_explorer
 
-# Run sanity check
-echo Running tests...
-cd /usr/local/selenium-grid-1.0.8
-ant sanity-check
+
 
