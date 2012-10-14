@@ -21,5 +21,5 @@ You should have a Raspberry Pi attached to an HDMI/DVI display, keyboard/mouse a
 ### Install all the things!
 1. Log into the Raspberry Pi as the user pi
 2. 
-`wget qO- https://raw.github.com/Donavan/cucumberpi/master/scripts/bootstrap.sh | sudo sh`
+`wget -qO- https://raw.github.com/Donavan/cucumberpi/master/scripts/bootstrap.sh | sudo sh`
 3. Go get a beer, it's gonna be a while.
